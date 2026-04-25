@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-const R_API_URL = "https://suppliers-sku-eval-seek.trycloudflare.com";
+const R_API_URL = "https://assisted-bin-vessels-bosnia.trycloudflare.com";
 
 export async function POST(request: Request) {
   try {
