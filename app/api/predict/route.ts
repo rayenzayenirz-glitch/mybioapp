@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import { knnDataset, coResistanceLinks } from "@/lib/data";
-
+ 
 const R_API_URL = "https://mud-non-covers-songs.trycloudflare.com";
-
+ 
 function findSimilarPatients(input: Record<string, number>, k = 3) {
   const featKeys = [
     "age","gender","Diabetes","Hypertension","Hospital_before","Infection_Freq",
@@ -11,13 +11,13 @@ function findSimilarPatients(input: Record<string, number>, k = 3) {
   ];
   const encodeRes = (v: string) =>
     v === "R" || v === "Resistant" ? 2 : v === "I" || v === "Intermediate" ? 1 : 0;
-  const inputVec = featKeys.map((k) => {
-    const val = input[k];
+  const inputVec = featKeys.map((key) => {
+    const val = input[key];
     if (typeof val === "string") return encodeRes(val);
     return Number(val) || 0;
   });
   const distances = knnDataset.map((row, idx) => {
-    const rowVec = featKeys.map((k) => Number(row[k as keyof typeof row]) || 0);
+    const rowVec = featKeys.map((key) => Number(row[key as keyof typeof row]) || 0);
     const dist = Math.sqrt(rowVec.reduce((sum, v, i) => sum + Math.pow(v - inputVec[i], 2), 0));
     return { idx, dist };
   });
@@ -36,7 +36,7 @@ function findSimilarPatients(input: Record<string, number>, k = 3) {
     };
   });
 }
-
+ 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -72,19 +72,27 @@ export async function POST(request: Request) {
     if (!response.ok) throw new Error(`R API error: ${response.status}`);
     const prediction = await response.json();
     const similarPatients = findSimilarPatients({
-      age:             Number(body.Age),
-      gender:          body.Gender === "Male" ? 1 : 0,
-      Diabetes:        body.Diabetes === "yes" ? 1 : 0,
-      Hypertension:    body.Hypertension === "yes" ? 1 : 0,
-      Hospital_before: body.Hospital_before === "yes" ? 1 : 0,
-      Infection_Freq:  Number(body.Infection_Freq),
-      AMX_AMP:         body.AMX_AMP, AMC: body.AMC, CZ: body.CZ,
-      FOX:             body.FOX, CTX_CRO: body.CTX_CRO, IPM: body.IPM,
-      GEN:             body.GEN, AN: body.AN,
+      age:               Number(body.Age),
+      gender:            body.Gender === "Male" ? 1 : 0,
+      Diabetes:          body.Diabetes === "yes" ? 1 : 0,
+      Hypertension:      body.Hypertension === "yes" ? 1 : 0,
+      Hospital_before:   body.Hospital_before === "yes" ? 1 : 0,
+      Infection_Freq:    Number(body.Infection_Freq),
+      AMX_AMP:           body.AMX_AMP,
+      AMC:               body.AMC,
+      CZ:                body.CZ,
+      FOX:               body.FOX,
+      CTX_CRO:           body.CTX_CRO,
+      IPM:               body.IPM,
+      GEN:               body.GEN,
+      AN:                body.AN,
       Acide_nalidixique: body.Acide_nalidixique,
-      ofx:             body.ofx, CIP: body.CIP, C: body.C,
-      Co_trimoxazole:  body.Co_trimoxazole,
-      Furanes:         body.Furanes, colistine: body.colistine,
+      ofx:               body.ofx,
+      CIP:               body.CIP,
+      C:                 body.C,
+      Co_trimoxazole:    body.Co_trimoxazole,
+      Furanes:           body.Furanes,
+      colistine:         body.colistine,
     });
     const abCols = ["AMX_AMP","AMC","CZ","FOX","CTX_CRO","IPM","GEN","AN",
                     "Acide_nalidixique","ofx","CIP","C","Co_trimoxazole","Furanes","colistine"];
