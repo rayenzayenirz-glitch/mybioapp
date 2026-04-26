@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { knnDataset, coResistanceLinks } from "@/lib/data";
 
-const R_API_URL = "https://assisted-bin-vessels-bosnia.trycloudflare.com";
+const R_API_URL = "https://focus-andy-struct-expenditures.trycloudflare.com";
 
 function findSimilarPatients(input: Record<string, number>, k = 3) {
   const featKeys = [
