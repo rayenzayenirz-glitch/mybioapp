@@ -9,7 +9,7 @@ function findSimilarPatients(input: Record<string, number>, k = 3) {
   const inputVec = featKeys.map((key) => { const val = input[key]; if (typeof val === "string") return encodeRes(val); return Number(val) || 0; });
   const distances = knnDataset.map((row, idx) => { const rowVec = featKeys.map((key) => Number(row[key as keyof typeof row]) || 0); const dist = Math.sqrt(rowVec.reduce((sum, v, i) => sum + Math.pow(v - inputVec[i], 2), 0)); return { idx, dist }; });
   distances.sort((a, b) => a.dist - b.dist);
-  return distances.slice(0, k).map(({ idx }) => { const r = knnDataset[idx]; return { id: r.ID, age: r.age, species: r.species, mdr: r.MDR === 1 || r.MDR === "1", diabetes: r.Diabetes === 1 || r.Diabetes === "1", hypertension: r.Hypertension === 1 || r.Hypertension === "1", hospital_before: r.Hospital_before === 1 || r.Hospital_before === "1", infection_freq: r.Infection_Freq }; });
+  return distances.slice(0, k).map(({ idx }) => { const r = knnDataset[idx]; return { id: r.ID, age: r.age, species: r.species, mdr: Number(r.MDR) === 1, diabetes: Number(r.Diabetes) === 1, hypertension: Number(r.Hypertension) === 1, hospital_before: Number(r.Hospital_before) === 1, infection_freq: r.Infection_Freq }; });
 }
 
 export async function POST(request: Request) {
