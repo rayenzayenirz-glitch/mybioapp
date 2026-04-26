@@ -171,7 +171,7 @@ export default function Home() {
       <header style={{background:"linear-gradient(90deg,#4c1d95,#5b21b6,#1d4ed8)"}} className="shadow-lg">
         <div className="max-w-4xl mx-auto px-6 py-4 flex items-center gap-4">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.png" alt="MedyxAI" className="h-12 w-12 rounded-full object-contain bg-white p-1" onError={(e)=>{(e.target as HTMLImageElement).style.display='none'}}/>
+          <img src="/logo.png" alt="MedyxAI" className="h-14 w-14 object-contain" onError={(e)=>{(e.target as HTMLImageElement).style.display='none'}}/>
           <div>
             <h1 className="text-2xl font-bold text-white tracking-tight">MedyxAI</h1>
             <p className="text-purple-200 text-xs">Where Data Meets Cure — Shaping the Future of Personalized Medicine</p>
