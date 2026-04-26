@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { knnDataset, coResistanceLinks } from "@/lib/data";
 
-cconst R_API_URL = "https://analyses-johnston-mount-alcohol.trycloudflare.com";
+const R_API_URL = "https://analyses-johnston-mount-alcohol.trycloudflare.com";
 
 function findSimilarPatients(input: Record<string, number>, k = 3) {
   const featKeys = ["age","gender","Diabetes","Hypertension","Hospital_before","Infection_Freq","AMX_AMP","AMC","CZ","FOX","CTX_CRO","IPM","GEN","AN","Acide_nalidixique","ofx","CIP","C","Co_trimoxazole","Furanes","colistine"];
